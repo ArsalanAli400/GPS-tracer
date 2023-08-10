@@ -1,125 +1,68 @@
-<!DOCTYPE HTML>
-<html>
-<head>
-<title>GOOGLE MAPS</title>
-<meta charset="UTF-8" />
-<meta name="viewport" content="width=\, initial-scale=1.0" />
-<meta http-equiv="X-UA-Compatible" content="ie=edge" />
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=\, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <link
+      rel="stylesheet"
+      href="leaflet/leaflet.css"
+    />
+    <script
+      src="leaflet/leaflet.js"
+    ></script>
+    
+    <style>
+      #map {
+        height: 360px;
+      }
+    </style>
 
-<!-- CSS -->
-<link rel="stylesheet" href="leaflet\leaflet.css"/>
+    <title>Fetch JSON from API and map lat lon</title>
+  </head>
+  <body>
+    <h1>Where is the ISS?</h1>
 
-<!--Javascript-->
-<script src="leaflet\leaflet.js"></script>
-<!--End of js file-->
-
- <!-- Make sure you put this AFTER Leaflet's CSS -->
-
-<!-- <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
-   integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY="
-   crossorigin=""/>
-
- <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"
-   integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo="
-   crossorigin=""></script> -->
-
-<style type="text/css">
-	#map { height: 300px; }
-</style>
-
-</head>
-<body>
-
-<header>
-<h1>GEO-TRACK MAPSv1.0</h1>
-</header>
-<p>
+    <p>
       latitude: <span id="lat"></span>°<br />
       longitude: <span id="lon"></span>° <br />
-</p>
-<div id="map"></div>
+    </p>
 
-<script type="text/javascript">
-	const gps_nmea_url = 'https://127.0.0.1:5000/lat';
-	const api_url = 'https://api.wheretheiss.at/v1/satellites/25544';
-	var s;
-	//Client Request from Server using JSON method
-	//  document.addEventListener("DOMContentLoaded", function(event) {
-  //   const getSensorReading = function() {
-  //   	const response = await fetch(url);
+    <div id="map"></div>
 
-  //   	var data = await response.json();
-  //   	window.alert(data);
-  //    	// fetch(api_url)
-  //     //   .then((response) => {await response.json();})
-  //       // .then(function(response) {
-  //       // 														x = response.data;
-	// 			// 														ret(x);
-  //     	// 													});
+    <script type="text/javascript">
+      // Making a map and tiles
+      // Setting a higher initial zoom to make effect more obvious
+      const gps_nmea_url = 'http://192.168.43.234:9090/GPGGS';
+      const api_url = 'https://api.wheretheiss.at/v1/satellites/25544';
+      const rwplat = 33.565111, rwplong  = 73.016913;
+      var map = L.map('map').setView([rwplat, rwplong], 13);
+      const tileUrl = 'https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png';
+      L.tileLayer(tileUrl, {
+                            maxZoom: 25,
+                            attribution: '© OpenStreetMap'
+                            }).addTo(map);
 
-	// 	}  
-	
-  //   // const s=getSensorReading();
-  //   // setInterval(getSensorReading, 2000);
-    
-	// });
-	// const response = await fetch(url);
-  // var data = await response.json();
-  // window.alert(data);
-  // Defining async function
-async function getapi(url) {
-   
-    // Storing response
-    const response = await fetch(url);
-   
-    // Storing data in form of JSON
-    var data = await response.json();
-    console.log(data);
-    if (response) {
-        hideloader();
-    }
-    show(data);
-    window.alert(data)
-}
-// Calling that async function
-getapi(api_url);
-	// window.alert(s);
-	// function ret(x){
-	// 	//var myJSON = JSON.stringify(x);
-	// 	window.alert(x);
-	// }
+      // Making a marker with a custom icon
+      let marker = L.marker([rwplat, rwplong]).addTo(map);
+      let firstTime = true;
 
+      async function getISS() {
+        const response = await fetch(gps_nmea_url);
+        const data = await response.json();
+        
+        const { latitude, longitude } = data;
 
-	// const api_url = 'https://api.wheretheiss.at/v1/satellites/25544';
-	// const rwplat = 33.565111, rwplong  = 73.016913;
-	// var map = L.map('map').setView([rwplat, rwplong], 13);
-	// L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
-  //   maxZoom: 19,
-  //   attribution: '© OpenStreetMap'
-	// }).addTo(map);
+        // Always set the view to current lat lon and zoom!
+        map.setView([latitude, longitude], map.getZoom());
+        marker.setLatLng([latitude, longitude]);
 
+        document.getElementById('lat').textContent = latitude.toFixed(4);
+        document.getElementById('lon').textContent = longitude.toFixed(4);
+      }
 
-	// // Making a marker with a custom icon
-  // let marker = L.marker([rwplat, rwplong]).addTo(map);
-
-	// async function getISS() {
-	// 			//const resp_1 = await fetch(gps_nmea_url);
-	// 			//const data_1 = await resp_1.json();
-				
-  //       const response = await fetch(api_url);
-  //       const data = await response.json();
-  //       const { latitude, longitude } = data;
-  //       // window.alert(latitude)
-  //       // Always set the view to current lat lon and zoom!
-  //       map.setView([latitude, longitude], map.getZoom());
-  //       marker.setLatLng([latitude, longitude]);
-
-  //       document.getElementById('lat').textContent = latitude.toFixed(2);
-  //       document.getElementById('lon').textContent = longitude.toFixed(2);
-  //     }
-
-  // getISS();
-  // setInterval(getISS, 1000);
-</script>
-</body>
+      getISS();
+      setInterval(getISS, 1000);
+    </script>
+  </body>
 </html>
