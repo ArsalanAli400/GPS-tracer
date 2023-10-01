@@ -29,10 +29,10 @@ The web-based application for real-time GPS tracking system to be depolyable in 
 <!-- PROJECT LOGO -->
 <br />
 <div align="center">
-  <a href="https://ifttt.com/maker_webhooks">
+  <!-- <a href="https://ifttt.com/maker_webhooks">
     <img src="https://arduinodiy.files.wordpress.com/2018/01/webhookslogo.png" alt="Logo" width="80" height="80">
-  </a>
-  <h3 align="center">IFTTT Webhooks</h3>
+  </a> -->
+  <h3 align="center">GPS Tracer V1.0</h3>
 </div>
 
 <!-- TABLE OF CONTENTS -->
@@ -105,7 +105,7 @@ _Below is an example of how you can instruct your audience on installing and set
 
 1. Clone the repo
    ```bash
-   git clone https://github.com/ArsalanAli400/IFTTT.git
+   git clone https://github.com/ArsalanAli400/GPS-tracer.git
    ```
 2. Install required packages
    ```bash
@@ -175,7 +175,7 @@ Distributed under the MIT License. See `LICENSE.txt` for more information.
 
 <!-- Your Name - [@your_twitter](https://twitter.com/a) - arsalan.ali.safeer@gmail.com -->
 
-Project Link: [https://github.com/ArsalanAli4000/IFTTT](https://github.com/ArsalanAli400/IFTTT.git)
+Project Link: [https://github.com/ArsalanAli4000/GPS-tracer](https://github.com/ArsalanAli400/GPS-tracer.git)
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
